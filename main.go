@@ -50,7 +50,8 @@ func createTopLayout() *fyne.Container {
 			multiClassContainer.Add(components.CreateClassSelector(true))
 		} else {
 			playermanager.CurrentPlayer.MultiClass = false
-			multiClassContainer.Remove(topLayout.Objects[len(topLayout.Objects)-1])
+			multiClassContainer.Objects = multiClassContainer.Objects[:0]
+			multiClassContainer.Refresh()
 		}
 	})
 
