@@ -34,7 +34,7 @@ func createTopLayout() *fyne.Container {
 
 	mainTitle := canvas.NewText("D&D Spell and Resource Counter", color.NRGBA{R: 130, G: 0, B: 18, A: 255})
 	mainDesc := canvas.NewText("This application will help you keep track of how many spells or resources you still have in your D&D Game.", color.Black)
-	mainDescNext := canvas.NewText("For exemple, it will keep track or your left Ki point, or Bardic Inspiration.", color.Black)
+	mainDescNext := canvas.NewText("For example, it will keep track or your left Ki point, or Bardic Inspiration.", color.Black)
 
 	titleC := container.NewVBox(container.NewCenter(mainTitle))
 	descC := container.NewVBox(container.NewVBox(container.NewCenter(mainDesc)),
