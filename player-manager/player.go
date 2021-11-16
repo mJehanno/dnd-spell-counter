@@ -5,9 +5,13 @@ import (
 	classmanager "github.com/mjehanno/dnd-spell-counter/class-manager"
 )
 
+//PlayerBinding is a Fyne binding on the current player
 var PlayerBinding binding.Struct
+
+//CurrentPlayer is the current player (aka user)
 var CurrentPlayer *Player
 
+//Player is a struct defining a user
 type Player struct {
 	MultiClass       bool
 	Class            classmanager.Class
@@ -20,6 +24,7 @@ type Player struct {
 	SecondFeatsValue int
 }
 
+//StatModificator is the dnd stat modificator scale.
 var StatModificator map[int]int = map[int]int{
 	1:  -5,
 	2:  -4,
@@ -44,6 +49,7 @@ var StatModificator map[int]int = map[int]int{
 	21: 5,
 }
 
+//MasteryByLevel is the mastery scale system for every class in dnd
 var MasteryByLevel map[int]int = map[int]int{
 	1:  2,
 	2:  2,

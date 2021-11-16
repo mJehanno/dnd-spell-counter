@@ -8,24 +8,28 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-type numericalEntry struct {
+// NumericalEntry is a numerical input
+type NumericalEntry struct {
 	widget.Entry
 }
 
-func NewNumericalEntry() *numericalEntry {
-	entry := &numericalEntry{}
+// NewNumericalEntry generate a new numerical input
+func NewNumericalEntry() *NumericalEntry {
+	entry := &NumericalEntry{}
 	entry.ExtendBaseWidget(entry)
 	return entry
 }
 
-func (e *numericalEntry) TypedRune(r rune) {
+//TypedRune enforce the available rune in the input to numeral value
+func (e *NumericalEntry) TypedRune(r rune) {
 	switch r {
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 		e.Entry.TypedRune(r)
 	}
 }
 
-func (e *numericalEntry) TypedShortcut(shortcut fyne.Shortcut) {
+//TypedShortcut enforce the copy/paste to be a number
+func (e *NumericalEntry) TypedShortcut(shortcut fyne.Shortcut) {
 	paste, ok := shortcut.(*fyne.ShortcutPaste)
 	if !ok {
 		e.Entry.TypedShortcut(shortcut)
@@ -38,6 +42,7 @@ func (e *numericalEntry) TypedShortcut(shortcut fyne.Shortcut) {
 	}
 }
 
-func (e *numericalEntry) Keyboard() mobile.KeyboardType {
+//Keyboard enforce the number keyboard to be displayed when clikcing on the input on mobile device.
+func (e *NumericalEntry) Keyboard() mobile.KeyboardType {
 	return mobile.NumberKeyboard
 }

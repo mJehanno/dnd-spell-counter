@@ -15,6 +15,7 @@ var classBind binding.ExternalString
 var lvlBind binding.ExternalInt
 var subClassBinding binding.StringList = binding.NewStringList()
 
+//CreateClassSelector generate a full class selector entry (class, sublass, lvl included)
 func CreateClassSelector(multi bool) *fyne.Container {
 	selectedLvl := 0
 	selectedClass := ""
