@@ -1,4 +1,4 @@
 [Details]
-  Icon = "./icone.png"
+  Icon = "./Icon.png"
   ID = "com.mjehanno.dnd-spellcounter"
-  Build = 1
+  Build = 5
