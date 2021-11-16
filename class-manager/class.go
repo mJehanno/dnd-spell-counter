@@ -22,7 +22,7 @@ const (
 	None         Abilities = "none"
 	Constitution Abilities = "cons"
 	Charism      Abilities = "char"
-	Strengh      Abilities = "str"
+	Strength     Abilities = "str"
 	Agility      Abilities = "agi"
 	Intelligence Abilities = "int"
 	Wisdom       Abilities = "wis"
@@ -80,6 +80,28 @@ var ClassList []Class = []Class{
 			18: 6,
 			19: 6,
 			20: 6,
+		},
+		SpellByLevel: map[int]map[int]int{
+			1:  {1: 2},
+			2:  {1: 2},
+			3:  {1: 3},
+			4:  {1: 3},
+			5:  {1: 4, 2: 2},
+			6:  {1: 4, 2: 3},
+			7:  {1: 4, 2: 3},
+			8:  {1: 4, 2: 3, 3: 2},
+			9:  {1: 4, 2: 3, 3: 2},
+			10: {1: 4, 2: 3, 3: 3},
+			11: {1: 4, 2: 3, 3: 3},
+			12: {1: 4, 2: 3, 3: 3},
+			13: {1: 4, 2: 3, 3: 3, 4: 1},
+			14: {1: 4, 2: 3, 3: 3, 4: 1},
+			15: {1: 4, 2: 3, 3: 3, 4: 2},
+			16: {1: 4, 2: 3, 3: 3, 4: 2},
+			17: {1: 4, 2: 3, 3: 3, 4: 3, 5: 1},
+			18: {1: 4, 2: 3, 3: 3, 4: 3, 5: 1},
+			19: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2},
+			20: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2},
 		},
 	},
 	{
