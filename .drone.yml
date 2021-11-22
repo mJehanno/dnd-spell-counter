@@ -11,16 +11,16 @@ steps:
     sonar_token:
       from_secret: sonar_token
 - name: test
-  image: fyneio/fyne-cross
+  image: mjehanno/golang_gui:1.0.0
   commands:
   - apt-get install golang gcc libgl1-mesa-dev xorg-dev
   - go test ./...
 - name: build
-  image: fyneio/fyne-cross
+  image: mjehanno/golang_gui:1.0.0
   commands:
     - go build .
 - name: package 
-  image: fyneio/fyne-cross
+  image: mjehanno/golang_gui:1.0.0
   commands:
   - go install github.com/fyne-io/fyne-cross@latest
   - fyne-cross android -pull -app-id $APP_ID -icon $ICON_PATH
