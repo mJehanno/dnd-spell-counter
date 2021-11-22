@@ -37,7 +37,7 @@ func CreateClassSelector(multi bool) *fyne.Container {
 
 	options := []string{}
 
-	for _, c := range classmanager.ClassList {
+	for _, c := range classmanager.ParseClassList() {
 		options = append(options, c.Name)
 	}
 

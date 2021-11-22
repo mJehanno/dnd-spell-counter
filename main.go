@@ -54,12 +54,12 @@ func createTopLayout() *fyne.Container {
 		}
 	})
 
-	class, _ := playermanager.PlayerBinding.GetItem("Class")
-	subClass, _ := playermanager.PlayerBinding.GetItem("SubClass")
-	secClass, _ := playermanager.PlayerBinding.GetItem("SecondClass")
-	secSubClass, _ := playermanager.PlayerBinding.GetItem("SecondSubClass")
-	lvl, _ := playermanager.PlayerBinding.GetItem("Lvl")
-	seclvl, _ := playermanager.PlayerBinding.GetItem("SecondLvl")
+	class, _ := playermanager.PlayerBinding.GetItem(playermanager.Class)
+	subClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SubClass)
+	secClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondClass)
+	secSubClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondSubClass)
+	lvl, _ := playermanager.PlayerBinding.GetItem(playermanager.Lvl)
+	seclvl, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondLvl)
 
 	caracContainer := container.NewHBox()
 
@@ -68,54 +68,60 @@ func createTopLayout() *fyne.Container {
 		secClass := playermanager.CurrentPlayer.SecondClass.Name
 		subClass := playermanager.CurrentPlayer.SubClass.Name
 		secSubClass := playermanager.CurrentPlayer.SecondSubClass.Name
-		if class == "Bard" || secClass == "Bard" {
+
+		if class != classmanager.Bard && secClass != classmanager.Bard {
+			caracContainer.Objects = caracContainer.Objects[:0]
+			caracContainer.Refresh()
+		}
+
+		if class == classmanager.Bard || secClass == classmanager.Bard {
 			if len(caracContainer.Objects) == 0 {
 				caracContainer.Add(widget.NewLabel("Charism : "))
 
 				w := components.NewNumericalEntry()
 				w.OnChanged = func(s string) {
 					value, _ := strconv.Atoi(s)
-					if playermanager.StatModificator[value] < 1 {
+					if playermanager.GetStatModificator(value) < 1 {
 						value = 1
 					} else {
-						value = playermanager.StatModificator[value]
+						value = playermanager.GetStatModificator(value)
 					}
-					if class == "Bard" {
+					if class == classmanager.Bard {
 
-						playermanager.PlayerBinding.SetValue("FeatsValue", value)
+						playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
 					} else {
-						playermanager.PlayerBinding.SetValue("SecondFeatsValue", value)
+						playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
 					}
 				}
 				caracContainer.Add(w)
 				caracContainer.Refresh()
 			}
 		}
-
-		if class != "Bard" && secClass != "Bard" {
-			caracContainer.Objects = caracContainer.Objects[:0]
-			caracContainer.Refresh()
-		}
-
-		if (class == "Fighter" && subClass == "Psi Warrior") ||
-			(secClass == "Fighter" && secSubClass == "Psi Warrior") {
-			if class == "Fighter" {
-				value := playermanager.MasteryByLevel[playermanager.CurrentPlayer.Lvl]
-				playermanager.PlayerBinding.SetValue("FeatsValue", value)
+		if (class == classmanager.Fighter && subClass == "Psi Warrior") ||
+			(secClass == classmanager.Fighter && secSubClass == "Psi Warrior") {
+			if class == classmanager.Fighter {
+				value := playermanager.GetMasteryByLevel(playermanager.CurrentPlayer.Lvl)
+				playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
 			} else {
-				value := playermanager.MasteryByLevel[playermanager.CurrentPlayer.SecondLvl]
-				playermanager.PlayerBinding.SetValue("SecondFeatsValue", value)
+				value := playermanager.GetMasteryByLevel(playermanager.CurrentPlayer.SecondLvl)
+				playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
 			}
 		}
-
-		if class == "Artificer" || class == "Barbarian" || class == "Monk" || class == "Sorcerer" {
+		if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
 			value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
-			playermanager.PlayerBinding.SetValue("FeatsValue", value)
+			playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
+		}
+		if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
+			value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
+			playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
 		}
 
-		if secClass == "Artificer" || secClass == "Barbarian" || secClass == "Monk" || secClass == "Sorcerer" {
-			value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
-			playermanager.PlayerBinding.SetValue("SecondFeatsValue", value)
+		if !playermanager.CurrentPlayer.Class.HasFeats {
+			playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, 0)
+		}
+
+		if !playermanager.CurrentPlayer.SecondClass.HasFeats {
+			playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, 0)
 		}
 
 	}
@@ -123,14 +129,14 @@ func createTopLayout() *fyne.Container {
 	onLvlChanged := func() {
 		class := playermanager.CurrentPlayer.Class.Name
 		secClass := playermanager.CurrentPlayer.SecondClass.Name
-		if class == "Artificer" || class == "Barbarian" || class == "Monk" || class == "Sorcerer" {
+		if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
 			value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
-			playermanager.PlayerBinding.SetValue("FeatsValue", value)
+			playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
 		}
 
-		if secClass == "Artificer" || secClass == "Barbarian" || secClass == "Monk" || secClass == "Sorcerer" {
+		if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
 			value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
-			playermanager.PlayerBinding.SetValue("SecondFeatsValue", value)
+			playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
 		}
 	}
 
@@ -160,14 +166,14 @@ func createTopLayout() *fyne.Container {
 }
 
 func createBottomLayout() *fyne.Container {
-	lvl, _ := playermanager.PlayerBinding.GetItem("Lvl")
-	class, _ := playermanager.PlayerBinding.GetItem("Class")
-	subClass, _ := playermanager.PlayerBinding.GetItem("SubClass")
-	secondSubClass, _ := playermanager.PlayerBinding.GetItem("SecondSubClass")
-	secondClass, _ := playermanager.PlayerBinding.GetItem("SecondClass")
-	secondLvl, _ := playermanager.PlayerBinding.GetItem("SecondLvl")
-	feats, _ := playermanager.PlayerBinding.GetItem("FeatsValue")
-	secondFeats, _ := playermanager.PlayerBinding.GetItem("SecondFeatsValue")
+	lvl, _ := playermanager.PlayerBinding.GetItem(playermanager.Lvl)
+	class, _ := playermanager.PlayerBinding.GetItem(playermanager.Class)
+	subClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SubClass)
+	secondSubClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondSubClass)
+	secondClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondClass)
+	secondLvl, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondLvl)
+	feats, _ := playermanager.PlayerBinding.GetItem(playermanager.FeatsValue)
+	secondFeats, _ := playermanager.PlayerBinding.GetItem(playermanager.SecondFeatsValue)
 
 	bottomLayout := container.NewGridWithColumns(2)
 
@@ -233,7 +239,7 @@ func createSkillPanel(class classmanager.Class, lvl int, subClass classmanager.S
 	featName := widget.NewLabelWithData(featBinding)
 	featCheckLine := container.NewHBox()
 	for i := 0; i < featValue; i++ {
-		featCheckLine.Add(widget.NewCheck("", func(b bool) {}))
+		featCheckLine.Add(widget.NewCheck("", nil))
 	}
 	featBinding.Set(class.Feats.Name)
 	mainClass.Objects = mainClass.Objects[:0]
@@ -250,7 +256,7 @@ func createSkillPanel(class classmanager.Class, lvl int, subClass classmanager.S
 			check := playermanager.CurrentPlayer.Class.SpellByLevel[lvl][i+1]
 			checkRow := container.NewHBox()
 			for j := 0; j < check; j++ {
-				checkRow.Add(widget.NewCheck("", func(b bool) {}))
+				checkRow.Add(widget.NewCheck("", nil))
 			}
 			spellLine.Add(checkRow)
 			mainClass.Add(spellLine)

@@ -24,51 +24,30 @@ type Player struct {
 	SecondFeatsValue int
 }
 
-//StatModificator is the dnd stat modificator scale.
-var StatModificator map[int]int = map[int]int{
-	1:  -5,
-	2:  -4,
-	3:  -4,
-	4:  -3,
-	5:  -3,
-	6:  -2,
-	7:  -2,
-	8:  -1,
-	9:  -1,
-	10: 0,
-	11: 0,
-	12: 1,
-	13: 1,
-	14: 2,
-	15: 2,
-	16: 3,
-	17: 3,
-	18: 4,
-	19: 4,
-	20: 5,
-	21: 5,
+const (
+	MultiClass       = "MultiClass"
+	Class            = "Class"
+	Lvl              = "Lvl"
+	SubClass         = "SubClass"
+	SecondClass      = "SecondClass"
+	SecondLvl        = "SecondLvl"
+	SecondSubClass   = "SecondSubClass"
+	FeatsValue       = "FeatsValue"
+	SecondFeatsValue = "SecondFeatsValue"
+)
+
+// GetStatModificator return the modificator to apply for the given stat value.
+func GetStatModificator(stat int) int {
+	if stat < 10 {
+		return (stat - 11) / 2
+	}
+	return (stat - 10) / 2
 }
 
-//MasteryByLevel is the mastery scale system for every class in dnd
-var MasteryByLevel map[int]int = map[int]int{
-	1:  2,
-	2:  2,
-	3:  2,
-	4:  2,
-	5:  3,
-	6:  3,
-	7:  3,
-	8:  3,
-	9:  4,
-	10: 4,
-	11: 4,
-	12: 4,
-	13: 5,
-	14: 5,
-	15: 5,
-	16: 5,
-	17: 6,
-	18: 6,
-	19: 6,
-	20: 6,
+// GetMasteryByLevel return the mastery bonus for the given lvl
+func GetMasteryByLevel(lvl int) int {
+	if lvl%4 == 0 {
+		return lvl/4 + 1
+	}
+	return lvl/4 + 2
 }
