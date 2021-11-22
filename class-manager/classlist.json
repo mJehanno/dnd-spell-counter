@@ -4,7 +4,7 @@
 		"HasSpell":             true,
 		"HasSpellWithSubClass": false,
 		"HasFeats":             true,
-		"Feats":                {"Name":"Infusion"},
+		"Feats":                {"Name":"Infusion", "CharModifier": "none"},
 		"SubClasses": [
 			{"Name":"Alchemist", "HasSpell":false, "HasFeats":false,"SpellLevelLimit": 5},
 			{"Name":"Armorer", "HasSpell":false, "HasFeats":false,"SpellLevelLimit": 5},
@@ -62,7 +62,7 @@
 		"HasSpell":             false,
 		"HasSpellWithSubClass": false,
 		"HasFeats":             true,
-		"Feats":                {"Name":"Rage"},
+		"Feats":                {"Name":"Rage", "CharModifier": "none"},
 		"SubClasses": [
 			{"Name":"Path of the Ancestral Guardian","HasSpell": false, "HasFeats": false, "SpellLevelLimit": 0},
 			{"Name":"Path of the Battlerager","HasSpell": false, "HasFeats": false, "SpellLevelLimit": 0},
@@ -101,7 +101,7 @@
 		"HasSpell":             true,
 		"HasSpellWithSubClass": false,
 		"HasFeats":             true,
-		"Feats":                {"Name":"BardicInspiration"},
+		"Feats":                {"Name":"BardicInspiration", "CharModifier":"char"},
 		"SubClasses": [
 			{"Name":"College of Creation","HasSpell": false,"HasFeats": false,"SpellLevelLimit": 9},
 			{"Name":"College of Eloquence","HasSpell": false,"HasFeats": false,"SpellLevelLimit": 9},
@@ -377,7 +377,7 @@
 		"HasSpell":             true,
 		"HasSpellWithSubClass": false,
 		"HasFeats":             true,
-		"Feats":                {"Name":"SorceryPoint"},
+		"Feats":                {"Name":"SorceryPoint", "CharModifier": "none"},
 		"SubClasses": [
 			{"Name":"Aberrant Mind", "HasSpell":false, "HasFeats":false,"SpellLevelLimit": 9},
 			{"Name":"Clockwork Soul", "HasSpell":false, "HasFeats":false,"SpellLevelLimit": 9},

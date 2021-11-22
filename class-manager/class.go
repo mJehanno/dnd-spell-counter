@@ -6,13 +6,13 @@ import (
 
 //Class is a dnd character class
 type Class struct {
-	Name                                     string
-	HasSpell, HasSpellWithSubClass, HasFeats bool
-	Feats                                    Feats
-	FeatsAmountByLevel                       map[int]int
-	SubClasses                               []SubClass
-	SpellLevelLimit                          int
-	SpellByLevel                             map[int]map[int]int
+	Name                                     string              `json:"omitempty"`
+	HasSpell, HasSpellWithSubClass, HasFeats bool                `json:"omitempty"`
+	Feats                                    Feats               `json:"omitempty"`
+	FeatsAmountByLevel                       map[int]int         `json:"omitempty"`
+	SubClasses                               []SubClass          `json:"omitempty"`
+	SpellLevelLimit                          int                 `json:"omitempty"`
+	SpellByLevel                             map[int]map[int]int `json:"omitempty"`
 }
 
 //String method return a string representation of class struct
@@ -41,9 +41,9 @@ const (
 
 //SubClass is a dnd character subclass (usually a choice made at level 3)
 type SubClass struct {
-	Name               string
-	HasSpell, HasFeats bool
-	SpellLevelLimit    int
+	Name               string `json:"omitempty"`
+	HasSpell, HasFeats bool   `json:"omitempty"`
+	SpellLevelLimit    int    `json:"omitempty"`
 }
 
 //Abilities are character's basic stat
@@ -70,8 +70,8 @@ const (
 
 //Feats define a class special feature like Ki for monk or Rage for Barbarian
 type Feats struct {
-	Name         string
-	CharModifier Abilities
+	Name         string    `json:"omitempty"`
+	CharModifier Abilities `json:"omitempty"`
 }
 
 var (
