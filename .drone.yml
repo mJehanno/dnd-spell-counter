@@ -1,0 +1,33 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: code-analysis
+  image: aosapps/drone-sonar-plugin
+  settings:
+    sonar_host:
+      from_secret: sonar_host
+    sonar_token:
+      from_secret: sonar_token
+- name: test
+  image: golang
+  commands:
+  - go test ./...
+- name: build
+  image: golang
+  commands:
+    - go build .
+- name: package 
+  image: golang
+  commands:
+  - go install github.com/fyne-io/fyne-cross@latest
+  - fyne-cross android -pull -app-id $APP_ID -icon $ICON_PATH
+  - fyne-cross windows -pull -app-id $APP_ID -icon $ICON_PATH
+  environment:
+    APP_ID: com.mjehanno.dnd-spellcounter
+    ICON_PATH: ./Icon.png
+  when: 
+    event:
+    - tag
+    
