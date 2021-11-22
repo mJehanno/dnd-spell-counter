@@ -13,6 +13,7 @@ steps:
 - name: test
   image: golang
   commands:
+  - apt-get install golang gcc libgl1-mesa-dev xorg-dev
   - go test ./...
 - name: build
   image: golang
@@ -21,8 +22,11 @@ steps:
 - name: package 
   image: golang
   commands:
+
   - go install github.com/fyne-io/fyne-cross@latest
   - fyne-cross android -pull -app-id $APP_ID -icon $ICON_PATH
+  - fyne-cross windows -pull -app-id $APP_ID -icon $ICON_PATH
+  - fyne-cross linux -pull -app-id $APP_ID -icon $ICON_PATH
   - fyne-cross windows -pull -app-id $APP_ID -icon $ICON_PATH
   environment:
     APP_ID: com.mjehanno.dnd-spellcounter
