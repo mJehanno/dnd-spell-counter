@@ -1,6 +1,3 @@
----
-lastmod: '2021-11-23T15:17:31.518Z'
----
 # dnd-spell-counter
 
  <a href="https://goreportcard.com/report/github.com/mjehanno/dnd-spell-counter"><img src="https://goreportcard.com/badge/github.com/mjehanno/dnd-spell-counter"/></a>
