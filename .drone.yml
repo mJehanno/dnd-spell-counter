@@ -13,7 +13,6 @@ steps:
 - name: test
   image: mjehanno/golang_gui:latest
   commands:
-  - apt-get install golang gcc libgl1-mesa-dev xorg-dev
   - go test ./...
 - name: build
   image: mjehanno/golang_gui:latest
