@@ -3,10 +3,6 @@ type: docker
 name: default
 
 steps:
-- name: dep
-  image: mjehanno/golang_gui:latest
-  commands:
-    - go get -d
 - name: test
   image: mjehanno/golang_gui:latest
   commands:
