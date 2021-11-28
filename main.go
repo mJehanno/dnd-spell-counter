@@ -30,29 +30,10 @@ func main() {
 }
 
 func createTopLayout() *fyne.Container {
-	firstClass := components.CreateClassSelector(false)
 
-	mainTitle := canvas.NewText("D&D Spell and Resource Counter", color.NRGBA{R: 130, G: 0, B: 18, A: 255})
-	mainDesc := canvas.NewText("This application will help you keep track of how many spells or resources you still have in your D&D Game.", color.Black)
-	mainDescNext := canvas.NewText("For example, it will keep track or your left Ki point, or Bardic Inspiration.", color.Black)
+	topLayout := createTitleTopLayout()
 
-	titleC := container.NewVBox(container.NewCenter(mainTitle))
-	descC := container.NewVBox(container.NewVBox(container.NewCenter(mainDesc)),
-		container.NewVBox(container.NewCenter(mainDescNext)))
-
-	topLayout := container.NewVBox(titleC, descC, widget.NewSeparator(), firstClass)
-
-	multiClassContainer := container.NewVBox()
-	multiClassFlagWidget := widget.NewCheck("MultiClass", func(b bool) {
-		if b {
-			playermanager.CurrentPlayer.MultiClass = true
-			multiClassContainer.Add(components.CreateClassSelector(true))
-		} else {
-			playermanager.CurrentPlayer.MultiClass = false
-			multiClassContainer.Objects = multiClassContainer.Objects[:0]
-			multiClassContainer.Refresh()
-		}
-	})
+	multiClassContainer, multiClassFlagWidget := createMultiClassFlagLayout()
 
 	class, _ := playermanager.PlayerBinding.GetItem(playermanager.Class)
 	subClass, _ := playermanager.PlayerBinding.GetItem(playermanager.SubClass)
@@ -126,20 +107,6 @@ func createTopLayout() *fyne.Container {
 
 	}
 
-	onLvlChanged := func() {
-		class := playermanager.CurrentPlayer.Class.Name
-		secClass := playermanager.CurrentPlayer.SecondClass.Name
-		if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
-			value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
-			playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
-		}
-
-		if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
-			value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
-			playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
-		}
-	}
-
 	onSubChanged := func() {}
 
 	class.AddListener(binding.NewDataListener(onClassChanged))
@@ -151,18 +118,40 @@ func createTopLayout() *fyne.Container {
 	lvl.AddListener(binding.NewDataListener(onLvlChanged))
 	seclvl.AddListener(binding.NewDataListener(onLvlChanged))
 
-	/*shortRest := widget.NewButton("Short Rest", func() {
-
-	})
-
-	longRest := widget.NewButton("Long Rest", func() {})*/
-	//rest := container.NewGridWithColumns(2, shortRest, longRest)
 	topLayout.Add(multiClassFlagWidget)
 	topLayout.Add(multiClassContainer)
 	topLayout.Add(caracContainer)
-	//topLayout.Add(rest)
 
 	return topLayout
+}
+
+func createTitleTopLayout() *fyne.Container {
+	firstClass := components.CreateClassSelector(false)
+
+	mainTitle := canvas.NewText("D&D Spell and Resource Counter", color.NRGBA{R: 130, G: 0, B: 18, A: 255})
+	mainDesc := canvas.NewText("This application will help you keep track of how many spells or resources you still have in your D&D Game.", color.Black)
+	mainDescNext := canvas.NewText("For example, it will keep track or your left Ki point, or Bardic Inspiration.", color.Black)
+	titleC := container.NewVBox(container.NewCenter(mainTitle))
+	descC := container.NewVBox(container.NewVBox(container.NewCenter(mainDesc)),
+		container.NewVBox(container.NewCenter(mainDescNext)))
+
+	topLayout := container.NewVBox(titleC, descC, widget.NewSeparator(), firstClass)
+	return topLayout
+}
+
+func createMultiClassFlagLayout() (*fyne.Container, *widget.Check) {
+	multiClassContainer := container.NewVBox()
+	multiClassFlagWidget := widget.NewCheck("MultiClass", func(b bool) {
+		if b {
+			playermanager.CurrentPlayer.MultiClass = true
+			multiClassContainer.Add(components.CreateClassSelector(true))
+		} else {
+			playermanager.CurrentPlayer.MultiClass = false
+			multiClassContainer.Objects = multiClassContainer.Objects[:0]
+			multiClassContainer.Refresh()
+		}
+	})
+	return multiClassContainer, multiClassFlagWidget
 }
 
 func createBottomLayout() *fyne.Container {
@@ -227,6 +216,20 @@ func createBottomLayout() *fyne.Container {
 	secondFeats.AddListener(binding.NewDataListener(drawSecondPanel))
 
 	return bottomLayout
+}
+
+func onLvlChanged() {
+	class := playermanager.CurrentPlayer.Class.Name
+	secClass := playermanager.CurrentPlayer.SecondClass.Name
+	if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
+		value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
+		playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
+	}
+
+	if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
+		value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
+		playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
+	}
 }
 
 func createSkillPanel(class classmanager.Class, lvl int, subClass classmanager.SubClass, featValue int) *fyne.Container {
