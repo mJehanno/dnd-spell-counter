@@ -30,7 +30,6 @@ func main() {
 }
 
 func createTopLayout() *fyne.Container {
-
 	topLayout := createTitleTopLayout()
 
 	multiClassContainer, multiClassFlagWidget := createMultiClassFlagLayout()
@@ -56,27 +55,7 @@ func createTopLayout() *fyne.Container {
 		}
 
 		if class == classmanager.Bard || secClass == classmanager.Bard {
-			if len(caracContainer.Objects) == 0 {
-				caracContainer.Add(widget.NewLabel("Charism : "))
-
-				w := components.NewNumericalEntry()
-				w.OnChanged = func(s string) {
-					value, _ := strconv.Atoi(s)
-					if playermanager.GetStatModificator(value) < 1 {
-						value = 1
-					} else {
-						value = playermanager.GetStatModificator(value)
-					}
-					if class == classmanager.Bard {
-
-						playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
-					} else {
-						playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
-					}
-				}
-				caracContainer.Add(w)
-				caracContainer.Refresh()
-			}
+			handleBardSelected(caracContainer, class)
 		}
 		if (class == classmanager.Fighter && subClass == "Psi Warrior") ||
 			(secClass == classmanager.Fighter && secSubClass == "Psi Warrior") {
@@ -88,23 +67,9 @@ func createTopLayout() *fyne.Container {
 				playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
 			}
 		}
-		if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
-			value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
-			playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
-		}
-		if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
-			value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
-			playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
-		}
 
-		if !playermanager.CurrentPlayer.Class.HasFeats {
-			playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, 0)
-		}
-
-		if !playermanager.CurrentPlayer.SecondClass.HasFeats {
-			playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, 0)
-		}
-
+		handleFeatClass(class, secClass)
+		handleHasNoFeat()
 	}
 
 	onSubChanged := func() {}
@@ -218,20 +183,6 @@ func createBottomLayout() *fyne.Container {
 	return bottomLayout
 }
 
-func onLvlChanged() {
-	class := playermanager.CurrentPlayer.Class.Name
-	secClass := playermanager.CurrentPlayer.SecondClass.Name
-	if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
-		value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
-		playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
-	}
-
-	if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
-		value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
-		playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
-	}
-}
-
 func createSkillPanel(class classmanager.Class, lvl int, subClass classmanager.SubClass, featValue int) *fyne.Container {
 	mainClass := container.NewGridWithRows(11)
 	titleBinding := binding.NewString()
@@ -268,4 +219,62 @@ func createSkillPanel(class classmanager.Class, lvl int, subClass classmanager.S
 
 	mainClass.Refresh()
 	return mainClass
+}
+
+func handleBardSelected(container *fyne.Container, className string) {
+	if len(container.Objects) == 0 {
+		container.Add(widget.NewLabel("Charism : "))
+
+		w := components.NewNumericalEntry()
+		w.OnChanged = func(s string) {
+			value, _ := strconv.Atoi(s)
+			if playermanager.GetStatModificator(value) < 1 {
+				value = 1
+			} else {
+				value = playermanager.GetStatModificator(value)
+			}
+			if className == classmanager.Bard {
+
+				playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
+			} else {
+				playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
+			}
+		}
+		container.Add(w)
+		container.Refresh()
+	}
+}
+
+func handleFeatClass(className, secClassName string) {
+	if className == classmanager.Artificer || className == classmanager.Barbarian || className == classmanager.Monk || className == classmanager.Sorcerer {
+		value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
+		playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
+	}
+	if secClassName == classmanager.Artificer || secClassName == classmanager.Barbarian || secClassName == classmanager.Monk || secClassName == classmanager.Sorcerer {
+		value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
+		playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
+	}
+}
+func handleHasNoFeat() {
+	if !playermanager.CurrentPlayer.Class.HasFeats {
+		playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, 0)
+	}
+
+	if !playermanager.CurrentPlayer.SecondClass.HasFeats {
+		playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, 0)
+	}
+}
+
+func onLvlChanged() {
+	class := playermanager.CurrentPlayer.Class.Name
+	secClass := playermanager.CurrentPlayer.SecondClass.Name
+	if class == classmanager.Artificer || class == classmanager.Barbarian || class == classmanager.Monk || class == classmanager.Sorcerer {
+		value := playermanager.CurrentPlayer.Class.FeatsAmountByLevel[playermanager.CurrentPlayer.Lvl]
+		playermanager.PlayerBinding.SetValue(playermanager.FeatsValue, value)
+	}
+
+	if secClass == classmanager.Artificer || secClass == classmanager.Barbarian || secClass == classmanager.Monk || secClass == classmanager.Sorcerer {
+		value := playermanager.CurrentPlayer.SecondClass.FeatsAmountByLevel[playermanager.CurrentPlayer.SecondLvl]
+		playermanager.PlayerBinding.SetValue(playermanager.SecondFeatsValue, value)
+	}
 }
