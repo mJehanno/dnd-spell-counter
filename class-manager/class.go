@@ -2,6 +2,7 @@ package classmanager
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 //Class is a dnd character class
@@ -80,7 +81,7 @@ var (
 	//BardicInspiration default value
 	BardicInspiration = Feats{"Bardic Inspiration", Charism}
 	//HemocraftDice default value
-	HemocraftDice = Feats{"EmocraftDice", None}
+	HemocraftDice = Feats{"Hemocraft Dice", None}
 	//Infusion default value
 	Infusion = Feats{"Infusion", None}
 	//Ki default value
@@ -112,7 +113,7 @@ func ParseClassList() []Class {
 
 	err := json.Unmarshal(resourceClasslistJson.StaticContent, &ClassList)
 	if err != nil {
-		panic("error while parsing classlist")
+		panic(fmt.Sprintf("error while parsing classlist : %v", err))
 	}
 	return ClassList
 }

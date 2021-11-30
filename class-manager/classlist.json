@@ -101,7 +101,7 @@
 		"HasSpell":             true,
 		"HasSpellWithSubClass": false,
 		"HasFeats":             true,
-		"Feats":                {"Name":"BardicInspiration", "CharModifier":"char"},
+		"Feats":                {"Name":"Bardic Inspiration", "CharModifier":"char"},
 		"SubClasses": [
 			{"Name":"College of Creation","HasSpell": false,"HasFeats": false,"SpellLevelLimit": 9},
 			{"Name":"College of Eloquence","HasSpell": false,"HasFeats": false,"SpellLevelLimit": 9},
@@ -141,7 +141,8 @@
 		"Name":                 "Blood Hunter",
 		"HasSpell":             true,
 		"HasSpellWithSubClass": false,
-		"HasFeats":             false,
+		"HasFeats":             true,
+		"Feats": {"Name":"Hemocraft Dice", "CharModifier":"none"},
 		"SubClasses": [
 			{"Name":"Order of the Ghostslayer", "HasSpell":false, "HasFeats": false, "SpellLevelLimit":0},
 			{"Name":"Order of the Lycan", "HasSpell":false, "HasFeats": false, "SpellLevelLimit":0},
@@ -377,7 +378,7 @@
 		"HasSpell":             true,
 		"HasSpellWithSubClass": false,
 		"HasFeats":             true,
-		"Feats":                {"Name":"SorceryPoint", "CharModifier": "none"},
+		"Feats":                {"Name":"Sorcery Point", "CharModifier": "none"},
 		"SubClasses": [
 			{"Name":"Aberrant Mind", "HasSpell":false, "HasFeats":false,"SpellLevelLimit": 9},
 			{"Name":"Clockwork Soul", "HasSpell":false, "HasFeats":false,"SpellLevelLimit": 9},
