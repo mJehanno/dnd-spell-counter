@@ -34,4 +34,14 @@ steps:
   when: 
     event:
     - tag
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key: api_token
+    files: fyne-cross/bin/*
+    title: DRONE_TAG
+  when:
+    event: 
+    - tag
+
     
