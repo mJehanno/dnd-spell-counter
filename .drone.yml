@@ -24,13 +24,16 @@ steps:
   image: mjehanno/golang_gui:latest
   commands:
     - go build .
-- name: package 
-  image: mjehanno/golang_gui:latest
+- name: package android
+  image: mjehanno/golang_gui_android:latest
+  commands:
+  - go get fyne.io/fyne/v2
+  - fyne package -os android -appID $APP_ID -icon $ICON_PATH
+- name: package linx
+  image: mjehanno/golang_gui_linux:latest
   commands:
   - go get fyne.io/fyne/v2
   - fyne package -os linux -icon $ICON_PATH
-  - fyne package -os windows -icon $ICON_PATH
-  - fyne package -os android -appID $APP_ID -icon $ICON_PATH
   environment:
     APP_ID: com.mjehanno.dnd-spellcounter
     ICON_PATH: ./Icon.png
