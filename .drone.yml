@@ -3,12 +3,8 @@ type: docker
 name: default
 
 steps:
-- name: deps
-  image: mjehanno/golang_gui:latest
-  commands:
-  - go mod download
 - name: test
-  image: mjehanno/golang_gui:latest
+  image: mjehanno/golang_gui_linux:latest
   commands:
   - go test ./...
   - go test ./... -json > test-report.out
@@ -21,7 +17,7 @@ steps:
     sonar_token:
       from_secret: sonar_token
 - name: build
-  image: mjehanno/golang_gui:latest
+  image: mjehanno/golang_gui_linux:latest
   commands:
     - go build .
 - name: package android
