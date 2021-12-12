@@ -23,7 +23,7 @@ steps:
 - name: package android
   image: mjehanno/golang_gui_android:latest
   commands:
-  - go install fyne.io/fyne/v2/cmd/fyne
+  - go get fyne.io/fyne/v2
   - fyne package -os android -appID $APP_ID -icon $ICON_PATH
   environment:
     APP_ID: com.mjehanno.dnd-spellcounter
@@ -34,7 +34,7 @@ steps:
 - name: package linux
   image: mjehanno/golang_gui_linux:latest
   commands:
-  - go get fyne.io/fyne/v2
+  - go install fyne.io/fyne/v2/cmd/fyne
   - fyne package -os linux -icon $ICON_PATH
   environment:
     APP_ID: com.mjehanno.dnd-spellcounter
