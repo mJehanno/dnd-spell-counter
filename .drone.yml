@@ -25,6 +25,7 @@ steps:
   commands:
   - go get fyne.io/fyne/v2
   - fyne package -os android -appID $APP_ID -icon $ICON_PATH
+  - ls -la
   environment:
     APP_ID: com.mjehanno.dnd-spellcounter
     ICON_PATH: ./Icon.png
