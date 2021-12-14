@@ -52,7 +52,7 @@ steps:
 #     - tag
 
 
----
+# ---
 # kind: pipeline
 # type: docker
 # name: Publish
