@@ -1,0 +1,41 @@
+name: build
+
+on: push
+
+jobs:
+  build:
+    env:
+      APP_ID: com.mjehanno.dnd-spellcounter
+      ICON_PATH: ./Icon.png
+      TAG_NAME: ${{ github.sha }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.16.5"
+
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Install deps
+        run: |
+          go install github.com/fyne-io/fyne-cross@latest
+          fyne-cross version
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - name: Build
+        run: |
+          fyne-cross android -pull -app-id $APP_ID -icon $ICON_PATH
+          fyne-cross windows -pull -app-id $APP_ID -icon $ICON_PATH
+      - name: upload android artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./fyne-cross/dist/android/dnd-spell-counter.apk
+
+      - name: upload windows artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dnd-spell-counter.win.zip
+          path: ./fyne-cross/dist/windows-amd64/dnd-spell-counter.exe.zip
