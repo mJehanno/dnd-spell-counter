@@ -10,35 +10,35 @@ steps:
     sonar_token:
       from_secret: sonar_token
 
----
-kind: pipeline
-type: exec
-name: Build
+# ---
+# kind: pipeline
+# type: exec
+# name: Build
 
-steps:
-- name: test
-  commands:
-  - go test ./...
-  - go test ./... -json > test-report.out
-  - go test ./... -coverprofile=cover.out
+# steps:
+# - name: test
+#   commands:
+#   - go test ./...
+#   - go test ./... -json > test-report.out
+#   - go test ./... -coverprofile=cover.out
 
-- name: build
-  commands:
-    - go build .
-- name: package android
-  commands:
-  - go get fyne.io/fyne/v2
-  - go get -u github.com/fyne-io/fyne-cross
-  - fyne-cross android -app-iD $APP_ID -icon $ICON_PATH
-  - fyne-cross windows
-  - fyne-cross linux
-  - ls fyne-cross/bin/android
-  environment:
-    APP_ID: com.wecraftforfun.dnd-spellcounter
-    ICON_PATH: ./Icon.png
-  when: 
-    event:
-    - tag  
+# - name: build
+#   commands:
+#     - go build .
+# - name: package android
+#   commands:
+#   - go get fyne.io/fyne/v2
+#   - go get -u github.com/fyne-io/fyne-cross
+#   - fyne-cross android -app-iD $APP_ID -icon $ICON_PATH
+#   - fyne-cross windows
+#   - fyne-cross linux
+#   - ls fyne-cross/bin/android
+#   environment:
+#     APP_ID: com.wecraftforfun.dnd-spellcounter
+#     ICON_PATH: ./Icon.png
+#   when: 
+#     event:
+#     - tag  
 # - name: package linux
 #   image: mjehanno/golang_gui_linux:latest
 #   commands:
