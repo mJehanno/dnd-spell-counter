@@ -29,11 +29,16 @@ jobs:
         run: |
           fyne-cross android -pull -app-id $APP_ID -icon $ICON_PATH
           fyne-cross windows -pull -app-id $APP_ID -icon $ICON_PATH
+          fyne-cross linux -pull -app-id $APP_ID -icon $ICON_PATH
       - name: upload android artifact
         uses: actions/upload-artifact@v2
         with:
           path: ./fyne-cross/dist/android/dnd-spell-counter.apk
-
+      - name: upload linux artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dnd-spell-counter.win.zip
+          path: ./fyne-cross/dist/linux-amd64/dnd-spell-counter.tar.xz
       - name: upload windows artifact
         uses: actions/upload-artifact@v2
         with:
@@ -44,5 +49,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
+            ./fyne-cross/dist/linux-amd64/dnd-spell-counter.tar.xz          
             ./fyne-cross/dist/android/dnd-spell-counter.apk
             ./fyne-cross/dist/windows-amd64/dnd-spell-counter.exe.zip
